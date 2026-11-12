@@ -21,7 +21,7 @@ def home(): #Modified HTML page
     conn = get_db_connection()
     # Execute a query to get all products 
     products = conn.execute('SELECT * FROM products').fetchall()
-    # Close the cnnection 
+    # Close the connection 
     conn.close()
     # Imagine we got username from a database later!
     username = "Charlie"
@@ -34,12 +34,26 @@ def home(): #Modified HTML page
         <link rel="stylesheet" href="{ url_for('static', filename='css/style.css') }">
     </head>
     <body>
-        <h1>Welcome to My shop, {username}!</h1>
+        <h1>Welcome to My shop!</h1>
         <p>Browse our amazing collection of products.</p>
         <a href="/about">About Us</a>
+        <hr>
     </body>
     </html>
     """
+
+    # Loop through the products and add them to the HTML 
+    for product in products:
+        html += f"""
+        <div>
+             <h2>{product['name']}</h2>
+             <p><strong>Price:</strong> {product['price']}</p>
+             <p>{product['description']}</p>
+        </div>
+        <hr>
+        """
+
+    
 
     #this is the content that will be sent back to the browser 
     return html
